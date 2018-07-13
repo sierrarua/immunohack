@@ -3,8 +3,9 @@ const bodyParser = require('body-parser')
 const path = require('path');
 const app = express();
 const mongoose = require('mongoose');
+var data = require('./data.json');
 
-mongoose.connect(process.env.MLAB);
+mongoose.connect(process.env.MONGODB_URI);
 
 var User = mongoose.model('User', {
   name: String,
@@ -13,15 +14,30 @@ var User = mongoose.model('User', {
   birthday: Date,
   gender: String
 })
-
-var Vaccine = mongoose.model('Vaccine', {
-  name: String,
-  age: Number,
-  dose_frequency: Number
-})
-
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.json())
+
+var Schema = mongoose.Schema;
+var VaccineSchema = new Schema({
+  "Age": Number,
+  "Vaccine": String
+})
+var Vaccine = mongoose.model('Vaccine', VaccineSchema)
+mongoose.Promise = Promise;
+
+// app.post('/load', function(req, res) {
+//   Promise.all(
+//     data.map((x) => {
+//       var newVaccine = {
+//         Age: x.Age,
+//         Vaccine: x.Vaccine
+//       };
+//       return new Vaccine(newVaccine).save();
+//     })
+//   ).then(function(){
+//     res.send('Success!');
+//   })
+// });
 
 app.post('/register', function(req, res){
   var newUser = new User({
@@ -45,23 +61,13 @@ app.post('/login', function(req, res){
     if (err) {
       throw err;
     } else {
-      res.redirect('/enterInfo');
+      // res.redirect('/login/quiz');
     }
   });
 });
 
-app.get('/contact', function(req, res){
-  Contact.find({}, (err, result) => {
-    if (err) {
-      res.status(500).end(err.message);
-    } else {
-      res.json(result);
-    }
-  })
-})
-
 app.get('/contact/:id', function(req, res){
-  Contact.findById(req.params.id, (err, result) => {
+  User.findById(req.params.id, (err, result) => {
     if (err) {
       res.status(500).end(err.message);
     } else {
@@ -74,4 +80,7 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.listen(process.env.PORT || 1337);
+var port = process.env.PORT || 3000;
+app.listen(port, function(){
+  console.log('Server running at http://localhost:%d/', port);
+});

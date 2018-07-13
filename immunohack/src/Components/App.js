@@ -13,9 +13,6 @@ class App extends Component {
           <h1 className="App-title">FACCINE: The most helpful tool for managing your family's health</h1>
           <h4> Managing your family's timeline for vaccinations </h4>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
         <Router>
           <div>
             <NavBar />
