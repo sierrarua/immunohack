@@ -4,7 +4,7 @@ const path = require('path');
 const app = express();
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MLAB);
+mongoose.connect(process.env.MONGODB_URI);
 
 var User = mongoose.model('User', {
   name: String,
