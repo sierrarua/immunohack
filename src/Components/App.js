@@ -14,7 +14,7 @@ class App extends Component {
       <div className="App">
         <Login />
         <Register />
-        <Homepage />
+        <HomePage />
       </div>
     );
   }
