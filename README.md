@@ -3,6 +3,7 @@
 
 <b>Our Proposed Solution</b>: We tackle this issue by syncing the user's GCal with vaccination dates, setting up communication interfaces with doctors for informing patients about the importance of certain vaccines, and videos that help debunk myths about immunization.
 #
+
 <b>Problem 1</b>: Combating Vaccine Hesitancy
 
 As a young mother, I’m unsure about which vaccines are vital for my child and which ones aren’t. Does she need to have that many in such a short time?
