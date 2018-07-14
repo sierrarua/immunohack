@@ -1,4 +1,4 @@
-# Faccine (immunohack project)
+# FACCINE: FAST-ACCESS CLOUD-CONNECTED IMMUNO-NETWORK EXCHANGE
 
 <b>Problem</b>: Combating Vaccine Hesitancy
 
