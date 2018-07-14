@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import 'semantic-ui-css/semantic.min.css';
-import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Image, Message, Segment, Select } from 'semantic-ui-react'
+
+const gender = [
+  { key: 'm', text: 'Male', value: 'male' },
+  { key: 'f', text: 'Female', value: 'female' },
+]
 
 class Register extends Component {
-
   render() {
     return (
       <div className='register-form'>
@@ -26,7 +30,7 @@ class Register extends Component {
             </Header>
             <Form size='large'>
               <Segment stacked>
-                <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' />
+                <Form.Input fluid icon='user' iconPosition='left' placeholder='Username' />
                 <Form.Input
                   fluid
                   icon='lock'
@@ -39,6 +43,7 @@ class Register extends Component {
                   <Form.Input fluid placeholder='Last Name'/>
                 </Form.Group>
                 <Form.Input type='date'/>
+                <Form.Field control={Select} options={gender} placeholder='Gender' />
                 <Button color='orange' fluid size='large'>
                   Register
                 </Button>
