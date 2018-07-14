@@ -6,7 +6,6 @@ import HomePage from './HomePage';
 import NavBar from './NavBar';
 import Login from './Login';
 import Register from './Register';
-import Homepage from './Homepage';
 
 class App extends Component {
   render() {
