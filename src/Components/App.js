@@ -6,10 +6,8 @@ import HomePage from './HomePage';
 import NavBar from './NavBar';
 import Login from './Login';
 import Register from './Register';
-<<<<<<< HEAD
 import UserPage from './UserPage';
-=======
->>>>>>> bcb8fcecc78a5cd2b40f5aef45da81e3d6f54e3f
+
 
 class App extends Component {
   constructor() {
