@@ -6,15 +6,48 @@ import HomePage from './HomePage';
 import NavBar from './NavBar';
 import Login from './Login';
 import Register from './Register';
-import Homepage from './Homepage';
+import UserPage from './UserPage';
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      login: false,
+      register: false,
+      homepage: true,
+      userpage: false
+    }
+  }
+
+  toLogin = () => {
+    this.setState({
+      login: true,
+      register: false,
+      homepage: false
+    });
+  }
+  toRegister = () => {
+    this.setState({
+      login: false,
+      register: true,
+      homepage: false
+    });
+  }
+  toHomepage = () => {
+    this.setState({
+      login: false,
+      register: false,
+      homepage: true
+    });
+  }
+
   render() {
     return (
       <div className="App">
-        <Login />
-        <Register />
-        <HomePage />
+        {this.state.login ? <Login toHomepage={this.toHomepage} /> : null}
+        {this.state.register ? <Register toHomepage={this.toHomepage}/> : null}
+        {this.state.homepage ? <HomePage toLogin={this.toLogin} toRegister={this.toRegister}/> : null}
+        {this.state.userpage ? <UserPage/> : null}
       </div>
     );
   }

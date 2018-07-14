@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import Login from './Login';
+import Register from './Register';
+
 import {
   Button,
   Container,
@@ -17,6 +20,10 @@ import {
 } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
 import logo from './images/Faccine.png'
+import YouTube from 'react-youtube';
+import { Route, Redirect } from 'react-router'
+
+
 
 /* eslint-disable react/no-multi-comp */
 /* Heads up! HomepageHeading uses inline styling, however it's not the best practice. Use CSS or styled components for
@@ -118,10 +125,15 @@ class DesktopContainer extends Component {
                 <Menu.Item as='a'>Our Goal</Menu.Item>
                 <Menu.Item as='a'>About Us</Menu.Item>
                 <Menu.Item position='right'>
-                  <Button as='a' inverted={!fixed}>
+
+
+                  <Button as='a' inverted={!fixed}
+                  onClick={this.props.toLogin}>
+
                     Log in
                   </Button>
-                  <Button as='a' inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>
+                  <Button as='a' inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}
+                  onClick={this.props.toRegister}>
                     Sign Up
                   </Button>
                 </Menu.Item>
@@ -165,8 +177,8 @@ class MobileContainer extends Component {
             </Menu.Item>
             <Menu.Item as='a'>Our Goal</Menu.Item>
             <Menu.Item as='a'>About Us</Menu.Item>
-            <Menu.Item as='a'>Log in</Menu.Item>
-            <Menu.Item as='a'>Sign Up</Menu.Item>
+            <Menu.Item as='a' onClick={this.props.toLogin}>Log in</Menu.Item>
+            <Menu.Item as='a' onClick={this.props.toRegister}>Sign Up</Menu.Item>
           </Sidebar>
 
           <Sidebar.Pusher
@@ -186,10 +198,12 @@ class MobileContainer extends Component {
                     <Icon name='sidebar' />
                   </Menu.Item>
                   <Menu.Item position='right'>
-                    <Button as='a' inverted>
+                    <Button as='a' inverted onClick={this.props.toLogin}>
                       Log in
                     </Button>
-                    <Button as='a' inverted style={{ marginLeft: '0.5em' }}>
+                    <Button as='a' inverted style={{ marginLeft: '0.5em' }}
+                    onClick={this.props.toRegister}
+                    >
                       Sign Up
                     </Button>
                   </Menu.Item>
@@ -210,9 +224,9 @@ MobileContainer.propTypes = {
   children: PropTypes.node,
 }
 
-const ResponsiveContainer = ({ children }) => (
+const ResponsiveContainer = ({ children, toLogin,toRegister }) => (
   <div>
-    <DesktopContainer>{children}</DesktopContainer>
+    <DesktopContainer toLogin={toLogin} toRegister={toRegister}>{children}</DesktopContainer>
     <MobileContainer>{children}</MobileContainer>
   </div>
 )
@@ -221,8 +235,82 @@ ResponsiveContainer.propTypes = {
   children: PropTypes.node,
 }
 
-const HomepageLayout = () => (
-  <ResponsiveContainer>
+class Video1 extends React.Component {
+  render() {
+    const opts = {
+      height: '390',
+      width: '640',
+      playerVars: { // https://developers.google.com/youtube/player_parameters
+        autoplay: 1
+      }
+    };
+
+    return (
+      <YouTube
+        videoId="b03U6BYF9L0"
+        opts={opts}
+        onReady={this._onReady}
+      />
+    );
+  }
+  _onReady(event) {
+   // access to player in all event handlers via event.target
+   event.target.pauseVideo();
+ }
+}
+
+class Video2 extends React.Component {
+  render() {
+    const opts = {
+      height: '190',
+      width: '340',
+      playerVars: { // https://developers.google.com/youtube/player_parameters
+        autoplay: 1
+      }
+    };
+
+    return (
+      <YouTube
+        videoId="rb7TVW77ZCs"
+        opts={opts}
+        onReady={this._onReady}
+      />
+    );
+  }
+  _onReady(event) {
+   // access to player in all event handlers via event.target
+   event.target.pauseVideo();
+ }
+}
+
+class Video3 extends React.Component {
+  render() {
+    const opts = {
+      height: '190',
+      width: '340',
+      playerVars: { // https://developers.google.com/youtube/player_parameters
+        autoplay: 1
+      }
+    };
+
+    return (
+      <YouTube
+        videoId="QgpfNScEd3M"
+        opts={opts}
+        onReady={this._onReady}
+      />
+    );
+  }
+  _onReady(event) {
+   // access to player in all event handlers via event.target
+   event.target.pauseVideo();
+ }
+}
+
+
+
+const HomepageLayout = ({ toLogin, toRegister}) => (
+  <ResponsiveContainer toLogin={toLogin} toRegister={toRegister}>
     <Segment style={{ padding: '8em 0em' }} vertical>
       <Grid container stackable verticalAlign='middle'>
         <Grid.Row>
@@ -257,17 +345,19 @@ const HomepageLayout = () => (
         <Grid.Row textAlign='center'>
           <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
             <Header as='h3' style={{ fontSize: '2em' }}>
-              "What a Company"
+              "Why we need vaccine?"
             </Header>
-            <p style={{ fontSize: '1.33em' }}>That is what they all say about us</p>
+            <Video2 />
           </Grid.Column>
           <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
             <Header as='h3' style={{ fontSize: '2em' }}>
-              "I shouldn't have gone with their competitor."
+              " What is behind anti-vaccine?"
             </Header>
+            <Video3 />
+
             <p style={{ fontSize: '1.33em' }}>
 
-          
+
             </p>
           </Grid.Column>
         </Grid.Row>
@@ -278,12 +368,8 @@ const HomepageLayout = () => (
         <Header as='h3' style={{ fontSize: '2em' }}>
           Listening to Our Inspirations
         </Header>
-        <p style={{ fontSize: '1.33em' }}>
-          ...
-        </p>
-        <Button as='a' size='large'>
-          Read More
-        </Button>
+
+        <Video1 />
         <Divider
           as='h4'
           className='header'

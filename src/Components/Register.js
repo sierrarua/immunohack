@@ -44,9 +44,10 @@ class Register extends Component {
                 </Form.Group>
                 <Form.Input type='date'/>
                 <Form.Field control={Select} options={gender} placeholder='Gender' />
-                <Button color='orange' fluid size='large'>
+                <Button color='orange' fluid size='large' onClick={this.props.toHomepage}>
                   Register
                 </Button>
+                <Message><a href='#' onClick={this.props.toHomepage}>Cancel</a></Message>
               </Segment>
             </Form>
           </Grid.Column>

@@ -50,6 +50,7 @@ class Login extends Component {
             <Message>
               New user? <a href='#'>Sign Up</a>
             </Message>
+            <Message><a href='#' onClick={this.props.toHomepage}>Cancel</a></Message>
           </Grid.Column>
         </Grid>
       </div>
