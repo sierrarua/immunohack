@@ -100,19 +100,35 @@ app.post('/login/addFamilyMember', function(req, res){
 })
 
 app.get('/suggestions', function(req,res){
-  User.find({username: req.query.username}, function(err, results){
+  User.findOne({
+      username: req.query.q
+  }, function(err, results){
     if (err) {
       res.send('did not find any users corresponding to this name');
     } else {
       var today = new Date();
       var ageMs = today.getTime() - results.birthday.getTime();
       var UserAgeInDays = ( Math.ceil(ageMs / (1000 * 60 * 60 * 24)));
+      console.log(UserAgeInDays)
       Vaccine.find({}, function(err, results){
-        var filteredResult = results.filter((result) => { result.age - UserAgeInDays > 360 });
-        return filteredResult;
+        console.log(results)
+        var filteredResults = results.filter(result => UserAgeInDays - result.toObject().Age > 360)
+        return filteredResult
       })
     }
   })
 });
+
+
+app.get('/userProfiles', function(req, res) {
+    User.find({}, function(err, user) {
+        if(!user) {
+            return false
+        } else {
+            console.log(user)
+            res.json(user)
+        }
+    })
+})
 
 app.listen(process.env.PORT || 1337);
