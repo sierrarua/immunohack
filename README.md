@@ -1,5 +1,4 @@
-# FACCINE 
-# (Fast-Access Cloud-Connected Immuno-Network Exchange)
+# FACCINE </br> (Fast-Access Cloud-Connected Immuno-Network Exchange)
 
 <b>Problem</b>: Combating Vaccine Hesitancy
 
