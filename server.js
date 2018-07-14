@@ -6,10 +6,22 @@ const mongoose = require('mongoose');
 
 mongoose.connect(process.env.MONGODB_URI);
 
+var Token = mongoose.model('token', {
+  userId: String,
+  token: String,
+  createdAt: Date
+});
+
 var User = mongoose.model('User', {
   name: String,
   username: String,
   password: String,
+  birthday: Date,
+  gender: String
+})
+
+var FamilyMember = mongoose.model('FamilyMember', {
+  name: String,
   birthday: Date,
   gender: String
 })
@@ -22,6 +34,9 @@ var Vaccine = mongoose.model('Vaccine', {
 
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.json())
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 app.post('/register', function(req, res){
   var newUser = new User({
@@ -45,13 +60,59 @@ app.post('/login', function(req, res){
     if (err) {
       throw err;
     } else {
-      res.redirect('/enterInfo');
+      var newToken = new Token({
+        userId: docs[0]._id,
+        token: docs[0].username + String(new Date()),
+        createdAt: new Date()
+      });
+      newToken.save({}, function(error, results){
+        if (error) {
+          console.log("error", error);
+        } else {
+          res.send(results);
+        }
+      });
     }
   });
 });
 
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+app.post('/login/addFamilyMember', function(req, res){
+  Token.find({token: req.query.token}, function(err, docs) {
+    if (err) {
+      throw err;
+    } else if (!docs.length){
+      res.status(400).send("token not found");
+    } else {
+      var newFamilyMember = new FamilyMember({
+        name: req.body.name,
+        birthday: req.body.birthday,
+        gender: req.body.gender
+      });
+      newFamilyMember.save({}, function(error, results){
+        if (error) {
+          console.log("error", error);
+        } else {
+          res.send(results);
+        }
+      });
+    }
+  });
+})
+
+app.get('/suggestions', function(req,res){
+  User.find({username: req.query.username}, function(err, results){
+    if (err) {
+      res.send('did not find any users corresponding to this name');
+    } else {
+      var today = new Date();
+      var ageMs = today.getTime() - results.birthday.getTime();
+      var UserAgeInDays = ( Math.ceil(ageMs / (1000 * 60 * 60 * 24)));
+      Vaccine.find({}, function(err, results){
+        var filteredResult = results.filter((result) => { result.age - UserAgeInDays > 360 });
+        return filteredResult;
+      })
+    }
+  })
 });
 
 app.listen(process.env.PORT || 1337);
